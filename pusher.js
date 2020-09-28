@@ -39,8 +39,8 @@ pusher.connection.bind('disconnected', () => {
 var events_channel = pusher.subscribe("inventory_changes");
 
 events_channel.bind("listed", (data) => {
+  // console.log(" -- got data: " + JSON.stringify(data));
   if (data.app_id == '730') {
-    // console.log(" -- got data: " + JSON.stringify(data));
     items.push(data);
   }
 });
@@ -56,7 +56,7 @@ async function processItems() {
   try {
     await got.post(API_URL, { json: { items: tmpItems }, ...requestOptions });
   } catch (error) {
-    console.error(`REQUEST ERROR: ${error.response.body}`);
+    console.error(`REQUEST ERROR: ${error}`);
   }
 }
 
