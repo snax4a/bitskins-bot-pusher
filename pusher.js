@@ -64,10 +64,15 @@ async function processItems() {
   }
 }
 
+let updating = false;
+
 async function UpdatePrices() {
+  if (updating) return;
   console.log("Updating prices...");
+  updating = true;
+
   try {
-    const response = await got(`${API_URL}/whitelisteditems/outdated-prices/3`, requestOptions);
+    const response = await got(`${API_URL}/whitelisteditems/outdated-prices/10`, requestOptions);
     const items = JSON.parse(response.body);
     const itemPrices = [];
 
@@ -87,8 +92,11 @@ async function UpdatePrices() {
       json: { priceData: itemPrices },
       ...requestOptions
     });
+    console.log(`Updated ${itemPrices.length} items`);
   } catch (error) {
     console.error(`UPDATE PRICES ERROR: ${error}`);
+  } finally {
+    updating = false;
   }
 }
 
@@ -115,5 +123,5 @@ async function GetWikiPrice(itemName, slug) {
   }
 }
 
-// setInterval(processItems, 3000);
-setInterval(UpdatePrices, 15000);
+setInterval(processItems, 3000);
+setInterval(UpdatePrices, 3000);
