@@ -76,6 +76,11 @@ async function updatePrices() {
     const items = JSON.parse(response.body);
     const itemPrices = [];
 
+    if (items.length === 0) {
+      updating = false;
+      return;
+    }
+
     for (const item of items) {
       const itemPrice = await getWikiPrice(item.name, item.slug);
 
