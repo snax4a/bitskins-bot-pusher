@@ -66,7 +66,7 @@ async function processItems() {
 
 let updating = false;
 
-async function UpdatePrices() {
+async function updatePrices() {
   if (updating) return;
   console.log("Updating prices...");
   updating = true;
@@ -77,7 +77,7 @@ async function UpdatePrices() {
     const itemPrices = [];
 
     for (const item of items) {
-      const itemPrice = await GetWikiPrice(item.name, item.slug);
+      const itemPrice = await getWikiPrice(item.name, item.slug);
 
       if (itemPrice && !isNaN(itemPrice)) {
         itemPrices.push({
@@ -100,7 +100,7 @@ async function UpdatePrices() {
   }
 }
 
-async function GetWikiPrice(itemName, slug) {
+async function getWikiPrice(itemName, slug) {
   try {
     const payload = {
       "operationName": "skin",
@@ -124,4 +124,4 @@ async function GetWikiPrice(itemName, slug) {
 }
 
 setInterval(processItems, 3000);
-setInterval(UpdatePrices, 3000);
+setInterval(updatePrices, 3000);
